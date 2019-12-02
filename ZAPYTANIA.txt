@@ -1,0 +1,52 @@
+SELECT * FROM blog_post;
+SELECT id, created_date FROM blog_post;
+SELECT DISTINCT id,title,author_id FROM blog_post;
+SELECT DISTINCT author_id FROM blog_post;
+SELECT COUNT(DISTINCT author_id) FROM blog_post;
+SELECT * FROM blog_post WHERE author_id='1';
+SELECT * FROM blog_post WHERE published_date !='NULL';
+SELECT title FROM blog_post WHERE author_id =1 AND published_date != 'NULL';
+SELECT title FROM blog_post WHERE text ='Test' OR author_id > 1 ;
+SELECT * FROM blog_post ORDER BY id DESC;
+SELECT * FROM blog_post ORDER BY title;
+SELECT * FROM blog_post ORDER BY published_date;
+INSERT INTO blog_post VALUES ('1','Dodany tytul','Dodany text','2019-30-11 15:55:11','2019-30-11 15:55:11',2);
+SELECT * FROM blog_post WHERE author_id=2;
+SELECT title FROM blog_post WHERE published_date IS NULL;
+SELECT title FROM blog_post WHERE published_date IS NOT NULL;
+UPDATE blog_post SET title = 'Juz nie HelloWorld', text='Zmieniony tekst' WHERE id=2;
+SELECT * FROM blog_post WHERE id=2;
+DELETE FROM blog_post WHERE published_date IS NULL;
+SELECT * FROM blog_post;
+SELECT * FROM blog_post WHERE id>5 LIMIT 3;
+SELECT MIN(created_date) FROM blog_post WHERE title != 'Juz nie HelloWorld';
+SELECT MAX(id) FROM blog_post WHERE author_id != 2 AND text!='kolejny post';
+SELECT COUNT(id) FROM blog_post WHERE id IS NOT NULL;
+SELECT AVG(published_date) FROM blog_post;
+SELECT SUM(author_id) FROM blog_post WHERE author_id IS NOT NULL;
+SELECT title,text FROM blog_post WHERE title LIKE 'a%';
+SELECT title,text FROM blog_post WHERE title LIKE 'a_%_%_%n';
+SELECT * FROM blog_post WHERE title IN('przyklad 1','admin','abcdefghi');
+SELECT * FROM blog_post WHERE title NOT IN('przyklad 1','admin','abcdefghi');
+SELECT id, title FROM blog_post WHERE id BETWEEN 4 AND 7;
+SELECT * FROM blog_post;
+SELECT text as historia , created_date as dzien_stworzenia FROM blog_post;
+SELECT text, id+' ,'+title+' ,'+text+',' FROM blog_post;
+SELECT * FROM auth_user;
+SELECT auth_user.username, blog_post.author_id FROM auth_user INNER JOIN blog_post ON blog_post.author_id=auth_user.id;
+SELECT DISTINCT auth_user.username, blog_post.author_id FROM auth_user INNER JOIN blog_post ON blog_post.author_id=auth_user.id;
+SELECT DISTINCT * FROM auth_user INNER JOIN blog_post ON blog_post.author_id=auth_user.id;
+ SELECT DISTINCT * FROM auth_user LEFT JOIN blog_post ON blog_post.author_id=auth_user.id;
+SELECT DISTINCT * FROM auth_user RIGHT JOIN blog_post ON blog_post.author_id=auth_user.id;
+ SELECT A.title, B.title
+   ...> FROM blog_post A, blog_post B
+   ...> WHERE A.id = B.id;
+SELECT title FROM blog_post
+   ...> UNION
+   ...> SELECT username FROM auth_user;
+ SELECT author_id, title
+   ...> FROM blog_post
+   ...> GROUP BY author_id;
+SELECT COUNT(author_id), text FROM blog_post GROUP BY text HAVING COUNT(author_id)=1;
+SELECT title FROM blog_post WHERE EXISTS(SELECT username FROM auth_user WHERE auth_user.id=blog_post.author_id);
+ INSERT INTO blog_post (author_id,text,title,created_date) SELECT id, username, password,date_joined FROM auth_user;
